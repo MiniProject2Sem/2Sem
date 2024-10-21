@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prospera - Analytics</title>
+    <link rel="stylesheet" href="analytics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- For Charts -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <h1>Prospera</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="summary.html">Expense Summary</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Summary Section -->
+    <section class="summary">
+        <div class="summary-card">
+        <h3>Total Expenses</h3>
+        <p>₹50,000</p> <!-- Example amount -->
+        </div>
+        <div class="summary-card">
+        <h3>Total Income</h3>
+        <p>₹75,000</p> <!-- Example amount -->
+        </div>
+        <div class="summary-card">
+        <h3>Total Savings</h3>
+        <p>₹25,000</p> <!-- Example amount -->
+    </div>
+    </section>
+
+
+    <!-- Main Section -->
+    <main>
+
+        <section class="analytics">
+            <h2>Expense Analytics</h2>
+            <div class="chart-container">
+                <canvas id="moneyChart" style="height: 400px;"></canvas>
+            </div>
+
+            <div class="timeframe">
+                <label for="timeframe">Select Timeframe:</label>
+                <select id="timeframe">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
+
+            
+
+            <!-- Categories Section -->
+            <section class="categories">
+                <h2>Expense Categories</h2>
+                <div class="category-cards">
+                    <!-- Groceries Category -->
+                    <div class="category-card" id="groceries" onclick="showDetails('groceries')">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Groceries</h3>
+                    </div>
+                    <!-- Entertainment Category -->
+                    <div class="category-card" id="entertainment" onclick="showDetails('entertainment')">
+                        <i class="fas fa-film"></i>
+                        <h3>Entertainment</h3>
+                    </div>
+                    <!-- Utilities Category -->
+                    <div class="category-card" id="utilities" onclick="showDetails('utilities')">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Utilities</h3>
+                    </div>
+                    <!-- Rent Category -->
+                    <div class="category-card" id="rent" onclick="showDetails('rent')">
+                        <i class="fas fa-home"></i>
+                        <h3>Rent</h3>
+                    </div>
+                    <!-- Transportation Category -->
+                    <div class="category-card" id="transportation" onclick="showDetails('transportation')">
+                        <i class="fas fa-bus"></i>
+                        <h3>Transportation</h3>
+                    </div>
+                    <!-- Health Category -->
+                    <div class="category-card" id="health" onclick="showDetails('health')">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Health</h3>
+                    </div>
+                    <!-- Education Category -->
+                    <div class="category-card" id="education" onclick="showDetails('education')">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Education</h3>
+                    </div>
+                    <!-- Dining Out Category -->
+                    <div class="category-card" id="dining-out" onclick="showDetails('dining-out')">
+                        <i class="fas fa-utensils"></i>
+                        <h3>Dining Out</h3>
+                    </div>
+                    <!-- Insurance Category -->
+                    <div class="category-card" id="insurance" onclick="showDetails('insurance')">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Insurance</h3>
+                    </div>
+                    <!-- Others Category -->
+                    <div class="category-card" id="others" onclick="showDetails('others')">
+                        <i class="fas fa-ellipsis-h"></i>
+                        <h3>Others</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Popup for Category Details -->
+            <div id="categoryDetailsPopup" class="category-details-popup">
+                <div class="popup-content">
+                    <button class="close-button" onclick="closePopup()">X</button>
+                    <h3 id="categoryTitle">Category Title</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Amount Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTableBody">
+                            <!-- Transaction rows will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chart JS Script -->
+    <script>
+        // Function to update totals based on transactions in local storage
+function updateTotals() {
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+    // Reset totals
+    totalIncome = 0;
+    totalExpense = 0;
+
+    transactions.forEach(transaction => {
+        if (transaction.type === 'income') {
+            totalIncome += transaction.amount;
+        } else if (transaction.type === 'expense') {
+            totalExpense += transaction.amount;
+        }
+    });
+
+    // Save the total amounts in local storage
+    localStorage.setItem('totalIncome', totalIncome);
+    localStorage.setItem('totalExpense', totalExpense);
+
+    updateTotalSummary(); // Update the summary display after calculating totals
+    initializeExpenseChart(); // Update the expense chart after recalculating totals
+}
+
+        // Function to display totals on the analytics page
+function displayAnalyticsTotals() {
+    const totalIncome = parseFloat(localStorage.getItem('totalIncome')) || 0;
+    const totalExpense = parseFloat(localStorage.getItem('totalExpense')) || 0;
+    const totalSavings = totalIncome - totalExpense;
+
+    // Display values in the corresponding elements
+    document.getElementById('analyticsTotalIncome').textContent = `₹${totalIncome}`;
+    document.getElementById('analyticsTotalExpense').textContent = `₹${totalExpense}`;
+    document.getElementById('analyticsTotalSavings').textContent = `₹${totalSavings}`;
+
+    // Update the chart if necessary
+    updateAnalyticsChart(totalIncome, totalExpense, totalSavings);
+}
+
+// Function to update the analytics chart
+function updateAnalyticsChart(totalIncome, totalExpense, totalSavings) {
+    const ctx = document.getElementById('analyticsChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Total Income', 'Total Expense', 'Total Savings'],
+            datasets: [{
+                label: 'Amount (in ₹)',
+                data: [totalIncome, totalExpense, totalSavings],
+                backgroundColor: ['#4caf50', '#ff6384', '#ffce56']
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+// Call this function when the analytics page loads
+window.onload = function() {
+    displayAnalyticsTotals(); // Display totals on page load
+};
+        // Initialize the money chart
+        const ctx = document.getElementById('moneyChart').getContext('2d');
+        let moneyChart;
+
+        // Sample data for money vs time in rupees
+        const dailyData = Array.from({ length: 31 }, () => Math.floor(Math.random() * 1000)); // Daily amounts (0-31 days)
+        // Update weekly data to have 7 entries corresponding to each day of the week
+        const weeklyData = Array.from({ length: 7 }, () => Math.floor(Math.random() * 7000)); // Weekly data for one week
+        const monthlyData = Array.from({ length: 12 }, () => Math.floor(Math.random() * 30000)); // Monthly amounts (0-12 months)
+
+        // Labels for each timeframe
+        const labelsDaily = Array.from({ length: 31 }, (_, i) => i + 1); // Labels for days
+        const labelsWeekly = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']; // Labels for weekdays
+        const labelsMonthly = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // Labels for months
+
+        // Function to render money chart based on selected timeframe
+        // Function to render money chart based on selected timeframe
+function renderMoneyChart(data, labels) {
+    if (moneyChart) {
+        moneyChart.destroy(); // Destroy previous chart instance if it exists
+    }
+
+    moneyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Money (₹)', // Updated label to rupees
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Amount (₹)' // Updated y-axis title to rupees
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Days of the Week' // Updated x-axis title for weekly data
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return `${tooltipItem.dataset.label}: ₹${tooltipItem.raw}`; // Updated tooltip to show rupees
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+        // Initial rendering for money chart with daily data
+        renderMoneyChart(dailyData, labelsDaily);
+
+        // Event listener for timeframe selection
+document.getElementById('timeframe').addEventListener('change', function () {
+    const selectedValue = this.value;
+    if (selectedValue === 'daily') {
+        renderMoneyChart(dailyData, labelsDaily);
+    } else if (selectedValue === 'weekly') {
+        renderMoneyChart(weeklyData, labelsWeekly); // Use new weekly labels for days of the week
+    } else if (selectedValue === 'monthly') {
+        renderMoneyChart(monthlyData, labelsMonthly);
+    }
+});
+        // Show details in popup
+        function showDetails(categoryId) {
+            const popup = document.getElementById('categoryDetailsPopup');
+            const categoryTitle = document.getElementById('categoryTitle');
+            const transactionTableBody = document.getElementById('transactionTableBody');
+
+            // Example data - you should replace this with real data
+            const transactions = [
+                { date: '2024-01-01', amount: '500' },
+                { date: '2024-01-02', amount: '300' }
+            ];
+
+            // Clear previous rows
+            transactionTableBody.innerHTML = '';
+
+            // Populate the table with transaction data
+            transactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${transaction.date}</td><td>₹${transaction.amount}</td>`;
+                transactionTableBody.appendChild(row);
+            });
+
+            categoryTitle.textContent = categoryId.charAt(0).toUpperCase() + categoryId.slice(1);
+            popup.style.display = 'flex'; // Show the popup
+        }
+
+        // Close popup
+        function closePopup() {
+            const popup = document.getElementById('categoryDetailsPopup');
+            popup.style.display = 'none'; // Hide the popup
+        }
+    </script>
+</body>
+</html>
