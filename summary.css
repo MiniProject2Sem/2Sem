@@ -1,0 +1,375 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-y: auto; /* Allow scrolling when necessary */
+}
+
+/* Header Styling */
+header {
+    background-color: #4caf50;
+    color: white;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem; /* Compact padding */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    flex: 1; /* Allow header title to take remaining space */
+}
+
+.header-buttons {
+    display: flex;
+    gap: 0.5rem; /* Space between buttons */
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-right: 1.5rem; /* Add a gap from the right edge of the screen */
+    margin-bottom: .5rem;
+}
+
+.header-buttons button {
+    background-color: white;
+    color: #4caf50;
+    border: 1px solid #4caf50;
+    padding: 0.4rem 1rem; /* Compact padding for buttons */
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.header-buttons button:hover {
+    background-color: #4caf50;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar Styling */
+#sidebar {
+    position: fixed;
+    top: 4rem; /* Adjusted for compact header height */
+    left: 0;
+    width: 220px;
+    height: calc(100% - 4rem); /* Ensure sidebar fills the viewport */
+    background-color: #f8f9fa;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Scrollable content in the sidebar */
+}
+
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar li {
+    margin: 0.5rem 0;
+}
+
+#sidebar a {
+    margin-top: 1rem;
+    text-decoration: none;
+    color: #4caf50;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+#sidebar a:hover {
+    background-color: #e8f5e9;
+    border-radius: 4px;
+}
+
+/* Main Content Styling */
+main {
+    margin-left: 240px; /* Adjusted for sidebar width */
+    padding: 6rem 1.5rem 1.5rem; /* Ensure spacing from header and sidebar */
+    background-color: #ffffff;
+}
+
+/* Scrollbar Styles */
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #4caf50;
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+/* Utility Classes */
+.flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+/* Total Summary Section */
+.summary-section {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+}
+
+.summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.summary-item {
+    flex: 1;
+    margin: 0 1rem;
+}
+
+.summary-item h3 {
+    font-size: 1.5rem;
+}
+
+.summary-item p {
+    font-size: 2.5rem; /* Increased font size for emphasis */
+    font-weight: bold;
+}
+
+/* Features Section */
+.feature-section {
+    background-color: #f9f9f9; /* Light background */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.feature-section:hover {
+    transform: scale(1.02);
+}
+
+.feature-section h2 {
+    margin-top: 0;
+    color: #4caf50;
+}
+
+#expense-chart-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 1rem auto;
+}
+
+input {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-right: 0.5rem;
+}
+
+button {
+    background-color: #4caf50; /* Button color */
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem; /* Spacing above the button */
+}
+
+button:hover {
+    background-color: #45a049; /* Darker button color on hover */
+}
+
+.button-group {
+    margin-top: 1rem; /* Space above button group */
+}
+
+/* Summary Section Styles */
+.summary-section {
+    background-color: #e6f9e6; /* Light green background */
+    color: #333; /* Dark text for better readability */
+    padding: 2rem;
+    text-align: center;
+    border-color: #ccc;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    transition: transform 0.3s; /* Animation effect */
+}
+
+.summary-section:hover {
+    transform: scale(1.02); /* Scale effect on hover */
+}
+
+.summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    flex-wrap: wrap; /* Allow items to wrap */
+}
+
+.summary-item {
+    flex: 1;
+    margin: 0 1rem;
+    transition: transform 0.3s; /* Animation effect for item */
+}
+
+.summary-item:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+
+.summary-item h3 {
+    font-size: 1.5rem; /* Title size */
+    margin: 0.5rem 0; /* Margin for spacing */
+    color: #4caf50; /* Green color for headings */
+}
+
+.large-text {
+    font-size: 2.5rem; /* Large font size for the values */
+    font-weight: bold; /* Bold text for emphasis */
+    margin: 0.5rem 0; /* Add margin for spacing */
+    color: #42772a; /* Dark green for values */
+}
+
+/* Icons */
+.summary-item i {
+    font-size: 2rem; /* Icon size */
+    margin-bottom: 0.5rem; /* Space below the icon */
+    color: #4caf50; /* Green color for icons */
+}
+
+/* Button Styles */
+.summary-buttons {
+    margin-top: 1rem;
+}
+
+.summary-buttons button {
+    margin: 0 1rem;
+    padding: 0.7rem 1rem;
+    background-color: #4caf50; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s, transform 0.3s; /* Transition effect */
+}
+
+.summary-buttons button:hover {
+    background-color: #45a049; /* Darker green background on hover */
+    transform: translateY(-3px); /* Lift effect on hover */
+}
+
+/* Chart Container Styles */
+#summaryChartContainer {
+    margin-top: 1rem; /* Space above the chart */
+    width: 100%; /* Full width */
+    max-width: 800px; /* Max width for the chart */
+    margin-left: auto; /* Center alignment */
+    margin-right: auto; /* Center alignment */
+}
+
+#summaryChart {
+    background-color: #ffffff; /* White background for the chart */
+    border-radius: 8px; /* Rounded corners for the chart */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+}
+
+/* Transaction Input Section Styles */
+.feature-section {
+    background-color: #f9f9f9; /* Light background */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.form-row {
+    display: flex; /* Flexbox for layout */
+    justify-content: space-between; /* Space between columns */
+    margin-bottom: 1rem; /* Spacing between rows */
+}
+
+.form-group {
+    flex: 1; /* Take equal space */
+    margin-right: 1rem; /* Right margin for spacing */
+}
+
+.form-group:last-child {
+    margin-right: 0; /* Remove margin from last child */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%; /* Full width */
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#transactionList {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Remove spacing between cells */
+    margin-top: 1rem; /* Spacing above the table */
+}
+
+#transactionList th, #transactionList td {
+    border: 1px solid #ddd; /* Table cell borders */
+    padding: 0.5rem; /* Cell padding */
+    text-align: left; /* Left-align text */
+}
+
+#transactionList th {
+    background-color: #4caf50; /* Header background */
+    color: white; /* Header text color */
+}
+
+.button-group {
+    margin-top: 1rem; /* Space above button group */
+}
+/* Make the transaction list scrollable after 6 entries */
+#transactionList tbody {
+    display: block;
+    max-height: 200px; /* Adjust this height to fit approximately 6 entries */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Ensure the table header stays fixed */
+#transactionList thead, #transactionList tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Ensure columns align properly */
+}
+
+/* Optional: Styling for better visibility */
+#transactionList {
+    border: 1px solid #ddd;
+    width: 100%;
+    border-collapse: collapse;
+}
